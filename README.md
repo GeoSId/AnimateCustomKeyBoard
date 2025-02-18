@@ -66,7 +66,8 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 
 Check the video [test_compose_gen_animate](https://github.com/GeoSId/AnimateCustomKeyBoard/blob/master/test_compose_gen_animate.webm)
 
-[compose_test.webm](https://github.com/user-attachments/assets/a7e0e0d1-0802-4fd0-9dea-04acea12b834)
+[test_compose_gen_animate.webm](https://github.com/user-attachments/assets/59c275f8-6699-4597-b567-a17b8cefa019)
+
 
 
 ## License
