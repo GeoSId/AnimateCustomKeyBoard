@@ -1,4 +1,4 @@
-package com.geosid.jetpackanimatekeyboard
+package com.geosid.animatekeyboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

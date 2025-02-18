@@ -1,4 +1,4 @@
-package com.geosid.jetpackanimatekeyboard
+package com.geosid.animatekeyboard
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.geosid.jetpackanimatekeyboard.ui.theme
+package com.geosid.animatekeyboard.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

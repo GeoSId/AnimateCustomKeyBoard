@@ -1,4 +1,4 @@
-package com.geosid.jetpackanimatekeyboard
+package com.geosid.animatekeyboard
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

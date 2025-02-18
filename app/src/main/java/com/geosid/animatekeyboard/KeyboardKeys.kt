@@ -1,7 +1,7 @@
-package com.geosid.jetpackanimatekeyboard
+package com.geosid.animatekeyboard
 
 import androidx.annotation.Keep
-import com.geosid.jetpackanimatekeyboard.KeyboardKeys.Key.Companion.englishKeys
+import com.geosid.animatekeyboard.KeyboardKeys.Key.Companion.englishKeys
 
 enum class Language(val keys: List<Char>) {
     English(englishKeys)

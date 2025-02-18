@@ -1,4 +1,4 @@
-package com.geosid.jetpackanimatekeyboard
+package com.geosid.animatekeyboard
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
