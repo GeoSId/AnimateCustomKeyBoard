@@ -73,3 +73,7 @@ Check the video [test_compose_gen_animate](https://github.com/GeoSId/AnimateCust
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+*   **GeoSid** - [LinkedIn](https://www.linkedin.com/in/george-sideris-5b8744b2/) -
