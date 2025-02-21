@@ -20,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,9 +64,10 @@ fun CustomKeyboardScreen(reset : Boolean) {
 
  @Composable
  fun CustomKey(onReset: () -> Unit) {
+     var startAnim by remember { mutableStateOf(false)}
      val filledBoxes by remember { mutableStateOf(mutableListOf<String?>().apply { repeat(5) { add(null) } }) }
      val boxesPositions by remember { mutableStateOf(ArrayList<Offset>()) }
-     var floatingLetters by remember { mutableStateOf(listOf<Triple<String, Offset, String>>()) }
+     var floatingLetters by remember { mutableStateOf(listOf<Pair<String, Offset>>()) }
 
      Row(
          modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
@@ -98,9 +100,11 @@ fun CustomKeyboardScreen(reset : Boolean) {
              horizontalAlignment = Alignment.CenterHorizontally
          ) {
              Keyboard(
-                 onKeyClick = { letter, position ->
-                     val id = UUID.randomUUID().toString()
-                     floatingLetters = floatingLetters + Triple(letter, position, id)
+                 onKeyClick = { letter, startPosition ->
+                     if(!startAnim) {
+                         floatingLetters = floatingLetters + Pair(letter, startPosition)
+                         startAnim = true
+                     }
 
                  }, onBackspace =
                  {
@@ -110,11 +114,12 @@ fun CustomKeyboardScreen(reset : Boolean) {
              )
          }
 
-         floatingLetters.forEach { (letter, position, id) ->
-             FloatingLetter(letter, position, boxesPositions, filledBoxes,
+         floatingLetters.forEach { (letter, startPosition) ->
+             FloatingLetter(letter, startPosition, boxesPositions, filledBoxes,
                  onAnimationEnd = {
                  // After each animation ends, remove the letter from the list of floating letters
-                 floatingLetters = floatingLetters.filterNot { it.third == id }
+                     startAnim = false
+                 floatingLetters = floatingLetters.filterNot { it.first == letter }
              })
          }
      }
@@ -140,20 +145,24 @@ fun Keyboard(onKeyClick: (String, Offset) -> Unit,
 
 @Composable
 fun FloatingLetter(letter: String, startPosition: Offset, boxesPositions: List<Offset>, filledBoxes: MutableList<String?>, onAnimationEnd: () -> Unit) {
-    var currentBoxIndex by remember { mutableStateOf(filledBoxes.indexOfFirst { it == null }) }
-    if (currentBoxIndex == -1) return // No available box
+    var currentBoxIndex by remember { mutableIntStateOf(filledBoxes.indexOfFirst { it == null }) }
+    if (currentBoxIndex == -1) return
 
     val targetPosition = boxesPositions[currentBoxIndex]
-    val offsetX = remember { Animatable(startPosition.x) }
-    val offsetY = remember { Animatable(startPosition.y) }
+    val offsetX = remember { Animatable(startPosition.copy().x) }
+    val offsetY = remember { Animatable(startPosition.copy().y) }
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(letter) {
         // Animate towards the target position
-        coroutineScope.launch { offsetX.animateTo(targetPosition.x, animationSpec = tween(1000)) }
-        coroutineScope.launch { offsetY.animateTo(targetPosition.y, animationSpec = tween(1000)) }
+        coroutineScope.launch {
+            offsetX.animateTo(targetPosition.x, animationSpec = tween(1000))
+        }
+        coroutineScope.launch {
+            offsetY.animateTo(targetPosition.y, animationSpec = tween(1000))
+        }
         // After the first animation finishes, check for available box and continue the animation
-        delay(1000)
+        delay(700)
         filledBoxes[currentBoxIndex] = letter // Place the letter in the box
         // Update the index to the next available box
         currentBoxIndex = filledBoxes.indexOfFirst { it == null }
