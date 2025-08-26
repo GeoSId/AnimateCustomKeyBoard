@@ -1,6 +1,7 @@
 package com.geosid.animatekeyboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -30,21 +31,46 @@ class CustomKeyTest {
     @Composable
     fun MockKeyboard(onKeyClick: (String, Offset) -> Unit, onBackspace: () -> Unit, onReset: () -> Unit) {
         Column {
-//            Text(text = "A", modifier = Modifier.testTag("key_A").background(Color.Red).size(40.dp).performClick {
-//                onKeyClick("A", Offset(0f, 0f))
-//            })
-//            Text(text = "B", modifier = Modifier.testTag("key_B").background(Color.Red).size(40.dp).performClick {
-//                onKeyClick("B", Offset(0f, 0f))
-//            })
-//            Text(text = "C", modifier = Modifier.testTag("key_C").background(Color.Red).size(40.dp).performClick {
-//                onKeyClick("C", Offset(0f, 0f))
-//            })
-//            Text(text = "Reset", modifier = Modifier.testTag("key_Reset").background(Color.Red).size(40.dp).performClick {
-//                onReset()
-//            })
-//            Text(text = "Backspace", modifier = Modifier.testTag("key_Backspace").background(Color.Red).size(40.dp).performClick {
-//                onBackspace()
-//            })
+            Text(
+                text = "A",
+                modifier = Modifier
+                    .testTag("key_A")
+                    .background(Color.Red)
+                    .size(40.dp)
+                    .clickable { onKeyClick("A", Offset(0f, 0f)) }
+            )
+            Text(
+                text = "B",
+                modifier = Modifier
+                    .testTag("key_B")
+                    .background(Color.Red)
+                    .size(40.dp)
+                    .clickable { onKeyClick("B", Offset(0f, 0f)) }
+            )
+            Text(
+                text = "C",
+                modifier = Modifier
+                    .testTag("key_C")
+                    .background(Color.Red)
+                    .size(40.dp)
+                    .clickable { onKeyClick("C", Offset(0f, 0f)) }
+            )
+            Text(
+                text = "Reset",
+                modifier = Modifier
+                    .testTag("key_Reset")
+                    .background(Color.Red)
+                    .size(40.dp)
+                    .clickable { onReset() }
+            )
+            Text(
+                text = "Backspace",
+                modifier = Modifier
+                    .testTag("key_Backspace")
+                    .background(Color.Red)
+                    .size(40.dp)
+                    .clickable { onBackspace() }
+            )
         }
     }
 
@@ -152,11 +178,11 @@ fun CustomKey(
     var myFilledBoxes by remember { mutableStateOf(filledBoxes) }
     var myFloatingLetters by remember { mutableStateOf(floatingLetters) }
     keyboard(
-        onKeyClick = { letter, position ->
+        { letter, position ->
             val id = java.util.UUID.randomUUID().toString()
             myFloatingLetters = myFloatingLetters + Triple(letter, position, id)
         },
-        onBackspace = {
+        {
             if (myFilledBoxes.isNotEmpty()) {
                 val lastFilledIndex = myFilledBoxes.indexOfLast { it != null }
                 if (lastFilledIndex != -1) {
@@ -164,7 +190,7 @@ fun CustomKey(
                 }
             }
         },
-        onReset = {
+        {
             myFilledBoxes.forEachIndexed { index, _ ->
                 myFilledBoxes[index] = null
             }
